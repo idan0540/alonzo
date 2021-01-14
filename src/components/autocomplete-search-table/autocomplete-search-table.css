@@ -9,7 +9,7 @@
 
 .autocomplete-search-table_input {
     font-size: 14px;
-    color: #202124;
+    color: #212420;
     background: #fff;
     display: flex;
     flex-direction: column;
@@ -36,10 +36,12 @@
     position: absolute;
     box-shadow: 0 2px 5px 1px rgba(64,60,67,.16);
     border-radius: 10px;
+    transition: all 0.2s ease-out;
 }
 
 .autocomplete-search-table_table-row {
     cursor: pointer;
+    /* background-color: #f13b3b; */
 }
 
 ::-webkit-scrollbar {

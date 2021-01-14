@@ -12,7 +12,7 @@ import Parser from 'html-react-parser';
 const columns = [
   { id: "name", label: "שם", minWidth: 200 },
   { id: "date", label: "תאריך עדכון", minWidth: 100 },
-  { id: "classified", label: "מסווג", minWidth: 50 }
+  { id: "classified", label: "מסווג", minWidth: 50, classes: { backgroundColor: '#56ff2c', color: '#56ff2c' } },
 ];
 
 function createData(name, date, classified) {
@@ -51,34 +51,53 @@ export default function AutocompleteSearchTable() {
     console.log(event.target.value);
   }
 
+  function rowClick(event) {
+    console.log(event.target);
+    setIsTableOpen(false);
+  }
+
+  function blurCheck(event) {
+    const focusInCurrentTarget = ({ relatedTarget, currentTarget }) => {
+      if (relatedTarget === null) return false;
+      let node = relatedTarget.parentNode;
+      while (node !== null) {
+        if (node === currentTarget) return true;
+        node = node.parentNode;
+      }
+      return false;
+    }
+    if (!focusInCurrentTarget(event)) {
+      setIsTableOpen(false)
+    }
+  }
+
   return (
-    <div className="autocomplete-search-table_container" onMouseLeave={() => setIsTableOpen(false)}>
-      <input className="autocomplete-search-table_input" placeholder="חפש..." onChange={inputTextChanged} onMouseOver={() => setIsTableOpen(true)}></input>
-      {isTableOpen ? <Paper className="autocomplete-search-table_table">
+    <div className="autocomplete-search-table_container" onBlur={blurCheck}>
+      <input className="autocomplete-search-table_input" placeholder="חפש..." onChange={inputTextChanged} onFocus={() => setIsTableOpen(true)}></input>
+      {isTableOpen ? <Paper className="autocomplete-search-table_table" onChange={() => setIsTableOpen(true)}>
         <TableContainer className="autocomplete-search-table_table-container">
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
-                {columns.map((column) => (
+                {columns.map((column, index) => (
                   <TableCell
                     key={column.id}
                     align={'right'}
                     style={{ minWidth: column.minWidth }}
-                    size={'small'}
-                  >
+                    size={'small'}>
                     {Parser(column.label.bold())}
                   </TableCell>
                 ))}
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => {
+              {rows.map((row, index) => {
                 if (row.name.toLowerCase().indexOf(inputText.toLowerCase()) !== -1) {
                   return (
-                    <TableRow className="autocomplete-search-table_table-row" hover role="checkbox" tabIndex={-1} key={row.code}>
-                      {columns.map((column) => {
+                    <TableRow className="autocomplete-search-table_table-row" hover role="checkbox" tabIndex={-1} key={row.code} onClick={rowClick}>
+                      {columns.map((column, index) => {
                         let value = row[column.id];
-                        if(column.id === 'name'){
+                        if (column.id === 'name') {
                           value = value.replace(inputText, '<b>' + inputText + '</b>');
                         }
                         return (
