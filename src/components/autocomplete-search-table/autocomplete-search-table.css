@@ -15,10 +15,10 @@
     flex-direction: column;
     border: 1px solid transparent;
     box-shadow: 0 2px 5px 1px rgba(64,60,67,.16);
-    width: 400px;
+    width: 450px;
     border-radius: 24px;
     height: 30px;
-    margin: 20px;
+    margin: 20px 0;
     user-select: none;
     outline: none;
     position: relative;

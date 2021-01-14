@@ -79,7 +79,7 @@ export default function AutocompleteSearchTable() {
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
-                {columns.map((column, index) => (
+                {columns.map((column) => (
                   <TableCell
                     key={column.id}
                     align={'right'}
@@ -91,11 +91,11 @@ export default function AutocompleteSearchTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row, index) => {
+              {rows.map((row) => {
                 if (row.name.toLowerCase().indexOf(inputText.toLowerCase()) !== -1) {
                   return (
                     <TableRow className="autocomplete-search-table_table-row" hover role="checkbox" tabIndex={-1} key={row.code} onClick={rowClick}>
-                      {columns.map((column, index) => {
+                      {columns.map((column) => {
                         let value = row[column.id];
                         if (column.id === 'name') {
                           value = value.replace(inputText, '<b>' + inputText + '</b>');
